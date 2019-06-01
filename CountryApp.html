@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Country Info App</title>
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous">
+    </script>  
+</head>
+
+<style>
+    
+    .header {
+    background-color:#2c3e50;
+	padding: 20px 40px;
+	height: 100px;
+	color: #ffffff;
+	box-sizing: border-box;
+	top:-100px; 
+    font-family: "courier new";
+    font-size: 20px;
+    text-align: center;
+        
+    }
+    
+    .search-box {
+    width: 100%;
+    display: block;
+    padding: 1em;
+    box-sizing: border-box;
+    border: 2px solid #2c3e50;
+    border-radius: 5px;
+    font-family: "courier new";
+    font-size: 20px;
+    
+    }
+    
+    .output-table {
+    
+    box-sizing: border-box;
+    font-family: "courier new";
+    color: #ffffff ;
+    text-align: center;
+    font-size: 20px;
+    background-color:#2c3e50;
+    table-layout: fixed; 
+    width: 100%;
+    
+
+    }
+    
+    </style>
+
+<body>
+
+    <div>
+
+        <header class="header">
+            <div>
+                <h3>Country Web Service</h3>
+            </div>
+        </header>
+
+        
+        <section>
+            <div>
+                <form>
+                    <input type="text" class="search-box" id="country" placeholder="Search by country name..." >
+                   
+                </form>
+            </div>
+        </section>
+
+        
+        <section >
+            <div>
+                <table class="output-table">
+                     <tbody>
+                      <thead class="table-head">
+                       <tr>
+                        <th>Country</th>
+                        <th>Capital</th>
+                        <th>Flag</th>
+                    </tr>
+                         </thead>   
+                    </tbody>
+                </table>
+            </div>
+            
+            
+              
+        </section>
+
+    </div>
+
+
+    <script>
+         
+    jQuery(App);
+
+    function App($) {
+        
+    console.log("App running...");
+    console.log($);
+            
+    }
+    $('#country').focus();  
+        
+    
+    $('#country').keydown(function(){
+	$.getJSON("https://restcountries.eu/rest/v2/all?fields=name;capital;flag;",function(data){
+    
+    var typed = $('#country').val();
+	var regexp = new RegExp(typed,"i");
+	var results;
+    
+    if(typed === "") {
+      $('tbody').html(""); 
+        return;
+    }
+        
+    
+    
+    $.each(data,function(key, val){
+	if(val.name.search(regexp) != -1)  {
+	results += "<tr>";
+	results += "<td>" + val.name + "</td>";
+	results += "<td>" + val.capital + "</td>";  
+    results += "<td>" + "<img width=30% height=30% src='" + val.flag + "'/>" + "</td>";
+    results += "</tr>"; 
+        
+    };
+    
+    });
+    
+    
+	$("tbody").html(results);
+    
+   
+
+    });
+    
+        
+    });
+    
+
+    </script>
+
+</body>
+
+</html>
